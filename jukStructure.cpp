@@ -1,162 +1,135 @@
-#include<iostream>
-#include"jukStructure.h"
+#include <iostream>
+#include <cstdlib>
+#include "jukStructure.h"
 
 using std::cout;
 using std::endl;
-
-arrStack::arrStack() {
-	topNum = 0;
+template <typename Type>
+ArrStack<Type>::ArrStack() {
+  topNum = 0;
 }
 
-bool arrStack::push(jukData mNode) {
-	if ( topNum < MAX_SIZE ) {
-		node[topNum] = mNode;
-		topNum++;
-		return TRUE;
-	}
+template <typename Type>
+bool ArrStack<Type>::push(Type mNode) {
+  if ( topNum < MAX_SIZE ) {
+  	node[topNum] = mNode;
+  	topNum++;
+  	return true;
+  }
 
-	else {
-		cout << "Stack overflow!(current topNum = " << topNum <<")" << endl;
-		return FALSE;
-	}
+  else {
+  	cout << "Stack overflow" << endl;
+  	exit(1);
+  }
 }
 
-jukData arrStack::pop() {
-	jukData ret;
+template <typename Type>
+Type ArrStack<Type>::pop() {
+  Type ret;
 
-	if ( topNum > 0 ) {
-		ret.data = node[topNum-1].data;
-		node[topNum-1].data = 0;
-		topNum--;
+  if ( topNum > 0 ) {
+  	ret = node[topNum-1];
+  	node[topNum-1]= 0;
+  	topNum--;
 
-		return ret;
-	}
+  	return ret;
+  }
 
-	else {
-		cout << "Stack underflow!(current topNum = " << topNum <<")" << endl;
-		ret.data = -1;
-		return ret;
-	}
+  else {
+//  	cout << "Stack underflow!(current topNum = " << topNum <<")" << endl;
+  	return false;
+  }
 }
 
-jukData arrStack::peek() {
-	if ( topNum > 0 ) {
-		return node[topNum-1];
-	}
-	else {
-		cout << "Stack is empty!(current topNum = " << topNum <<")" << endl;
-		jukData ret;
-		ret.data = -1;
-		return ret;
-	}
+template <typename Type>
+Type ArrStack<Type>::peek() {
+  if ( topNum > 0 ) {
+  	return node[topNum-1];
+  }
+  else {
+  	return false;
+  }
 }
 
-void arrStack::show() {
-	for ( int i = 0; i < MAX_SIZE; i++ )
-		cout << "data[" << i << "]=" << node[i].data << endl;
+template <typename Type>
+void ArrStack<Type>::show() {
+  for ( int i = 0; i < MAX_SIZE; i++ )
+  	cout << "data[" << i << "]=" << node[i] << endl;
 }
 
-arrQueue::arrQueue() {
-	cnt = rear = front = 0;
+template <typename Type>
+ArrQueue<Type>::ArrQueue() {
+  cnt = rear = front = 0;
 }
 
-bool arrQueue::enqueue(jukData mNode) {
-	if ( cnt < MAX_SIZE ) {
-		node[rear] = mNode;
-		rear = (rear+1)%MAX_SIZE;
-		cnt++;
-		return TRUE;
-	}
-	else {
-		cout << "Queue is full!" << endl;
-		return FALSE;
-	}
+template <typename Type>
+bool ArrQueue<Type>::enqueue(Type mNode) {
+  if ( cnt < MAX_SIZE ) {
+  	node[rear] = mNode;
+  	rear = (rear+1)%MAX_SIZE;
+  	cnt++;
+  	return true;
+  }
+  else {
+//  	cout << "Queue is full!" << endl;
+  	return false;
+  }
 }
 
-jukData arrQueue::dequeue() {
-	jukData ret;
-	if ( cnt > 0 ) {
-		ret = node[front];
-		node[front].data = 0;
-		front = (front+1)%MAX_SIZE;
-		cnt--;
-		return ret;
-	}
-	else {
-		cout << "Queue is empty!" << endl;
-		ret.data = -1;
-		return ret;
-	}
+template <typename Type>
+Type ArrQueue<Type>::dequeue() {
+  Type ret;
+
+  if ( cnt > 0 ) {
+  	ret = node[front];
+  	node[front] = 0;
+  	front = (front+1)%MAX_SIZE;
+  	cnt--;
+  	return ret;
+  }
+  else {
+//  cout << "Queue is empty!" << endl;
+  	return false;
+  }
 }
 
-jukData arrQueue::peek() {
-	if ( cnt > 0 ) {
-		return node[front];
-	}
-	else {
-		cout << "Queue is empty!" << endl;
-		jukData ret;
-		ret.data = -1;
-		return ret;
-	}
+template <typename Type>
+Type ArrQueue<Type>::peek() {
+  if ( cnt > 0 ) {
+  	return node[front];
+  }
+  else {
+//  	cout << "Queue is empty!" << endl;
+  	return false;
+  }
 }
 
-void arrQueue::show() {
-	if ( cnt == 0 ) {
-		cout << "Queue is empty!" << endl;
-		return;
-	}
+template <typename Type>
+void ArrQueue<Type>::show() {
+  if ( cnt == 0 ) {
+  	cout << "Queue is empty!" << endl;
+  	return;
+  }
 
-	int i = front;
+  int i = front;
 
-	do {
-		cout << "node [" << i << "] = " << node[i].data << endl;
-		i = (i+1)%MAX_SIZE;
-	}
-	while ( i != rear );
+  do {
+  	cout << "node [" << i << "] = " << node[i] << endl;
+  	i = (i+1)%MAX_SIZE;
+  }
+  while ( i != rear );
 }
 
 int main() {
-	arrQueue testQ;
-	jukData mNode;
+  ArrStack<int> testS;
 
-	for ( int i = 0; i < MAX_SIZE; i++ ) {
-		mNode.data = i+1;
-		testQ.enqueue(mNode);
-	}
+  for ( int i = 0; i < MAX_SIZE+1; i++ ) {
+  	testS.push(i);
+  }
 
-	testQ.dequeue();
-	mNode.data = 11;
-	testQ.enqueue(mNode);
+  cout << testS.peek() << endl;
 
-	testQ.dequeue();
-	mNode.data = 12;
-	testQ.enqueue(mNode);
+  testS.show();
 
-	testQ.dequeue();
-	testQ.dequeue();
-	testQ.dequeue();
-	testQ.dequeue();
-	testQ.dequeue();
-	testQ.dequeue();
-	testQ.dequeue();
-	testQ.dequeue();
-	testQ.dequeue();
-	testQ.dequeue();
-
-	for ( int i = 0; i < MAX_SIZE; i++ ) {
-		mNode.data = i+1;
-		testQ.enqueue(mNode);
-	}
-
-	testQ.dequeue();
-	mNode.data = 11;
-	testQ.enqueue(mNode);
-
-	testQ.show();
-
-	mNode = testQ.peek();
-	cout << mNode.data  << endl;
-
-	return 0;
+  return 0;
 }

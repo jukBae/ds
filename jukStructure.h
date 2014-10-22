@@ -1,5 +1,5 @@
-#include<iostream>
-#ifndef _JUK_COMMON_
+#include <iostream>
+/*#ifndef _JUK_COMMON_
 #define _JUK_COMMON_
 
 #define MAX_SIZE 10
@@ -7,36 +7,46 @@
 #define FALSE 0
 
 #endif
-struct jukData {
-	int data;
-};
+*/
+// c++ supports true and false so, above code is not necessary.
 
-class arrStack {
+const int MAX_SIZE = 10;
+
+/*struct Type {
+  int data;
+};
+*/
+// It is better to use template
+
+template <typename Type>
+class ArrStack {
 private:
-	unsigned int topNum;
-	const static int maxNum = MAX_SIZE;
-	jukData node[MAX_SIZE];
+  unsigned int topNum;
+//  const static int maxNum = MAX_SIZE;
+// It is not necesary
+  Type node[MAX_SIZE];
 
 public:
-	arrStack();
-	bool push(jukData mNode);
-	jukData pop();
-	jukData peek();
-	void show();
+  ArrStack();
+  bool push(Type mNode);
+  Type pop();
+  Type peek();
+  void show();
 };
 
-class arrQueue {
+template <typename Type>
+class ArrQueue {
 private:
-	unsigned int front;
-	unsigned int rear;
-	unsigned int cnt;
-	const static int maxNum = MAX_SIZE;
-	jukData node[MAX_SIZE];
+  unsigned int front;
+  unsigned int rear;
+  unsigned int cnt;
+//  const static int maxNum = MAX_SIZE;
+  Type node[MAX_SIZE];
 
 public:
-	arrQueue();
-	bool enqueue(jukData mNode);
-	jukData dequeue();
-	jukData peek();
-	void show();
+  ArrQueue();
+  bool enqueue(Type mNode);
+  Type dequeue();
+  Type peek();
+  void show();
 };
